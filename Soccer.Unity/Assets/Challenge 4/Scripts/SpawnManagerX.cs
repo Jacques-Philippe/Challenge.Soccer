@@ -14,13 +14,17 @@ public class SpawnManagerX : MonoBehaviour
     public int enemyCount;
     public int waveCount = 1;
 
+    public GameObject player;
 
-    public GameObject player; 
+    /// <summary>
+    /// The tag associated to each enemy instance gameobject
+    /// </summary>
+    private const string ENEMY_TAG = "Enemy";
 
     // Update is called once per frame
     void Update()
     {
-        enemyCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
+        enemyCount = GameObject.FindGameObjectsWithTag(ENEMY_TAG).Length;
 
         if (enemyCount == 0)
         {
