@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyX : MonoBehaviour
 {
     public float speed;
@@ -12,15 +13,16 @@ public class EnemyX : MonoBehaviour
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
+
+        this.playerGoal = GameObject.Find("Player Goal");
     }
 
     // Update is called once per frame
     void Update()
     {
         // Set enemy direction towards player goal and move there
-        Vector3 lookDirection = (playerGoal.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDirection * speed * Time.deltaTime);
-
+        Vector3 toPlayerGoalDirection = (playerGoal.transform.position - transform.position).normalized;
+        enemyRb.AddForce(toPlayerGoalDirection * speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision other)
