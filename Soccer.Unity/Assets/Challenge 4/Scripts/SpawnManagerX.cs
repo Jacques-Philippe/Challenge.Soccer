@@ -11,10 +11,17 @@ public class SpawnManagerX : MonoBehaviour
     private float spawnZMin = 15; // set min spawn Z
     private float spawnZMax = 25; // set max spawn Z
 
+    /// <summary>
+    /// The lifespan of the powerup in seconds
+    /// </summary>
+    private float powerupLifespan = 7.0f;
+
     public int enemyCount;
     public int waveCount = 1;
 
     public GameObject player;
+
+    private GameObject? spawnedPowerup = null;
 
     /// <summary>
     /// The tag associated to each enemy instance gameobject
@@ -49,7 +56,8 @@ public class SpawnManagerX : MonoBehaviour
         // If no powerups remain, spawn a powerup
         if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0) // check that there are zero powerups
         {
-            Instantiate(powerupPrefab, GenerateSpawnPosition() + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            this.spawnedPowerup = Instantiate(powerupPrefab, GenerateSpawnPosition() + powerupSpawnOffset, powerupPrefab.transform.rotation);
+            StartCoroutine(DestroyPowerUpAfterSeconds(powerupLifespan));
         }
 
         // Spawn number of enemy balls based on wave number
@@ -61,6 +69,15 @@ public class SpawnManagerX : MonoBehaviour
         waveCount++;
         ResetPlayerPosition(); // put player back at start
 
+    }
+
+    private IEnumerator DestroyPowerUpAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (this.spawnedPowerup != null)
+        {
+            GameObject.Destroy(this.spawnedPowerup);
+        }
     }
 
     // Move player back to position in front of own goal
