@@ -51,7 +51,7 @@ public class PlayerControllerX : MonoBehaviour
         powerupIndicator.SetActive(false);
     }
 
-    // If Player collides with enemy
+    // If Player collides with enemy 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
